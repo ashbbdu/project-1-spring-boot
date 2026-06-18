@@ -3,6 +3,7 @@ package com.project1.services;
 import com.project1.dto.EmployeeDto;
 import com.project1.dto.UpdateEmployeeDto;
 import com.project1.entities.EmployeeEntity;
+import com.project1.exceptions.ResourceNotFoundException;
 import com.project1.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -33,7 +34,7 @@ public class EmployeeService {
     }
 
     public EmployeeDto updateEmployee (UpdateEmployeeDto updateEmployeeDto) {
-        EmployeeEntity employee = employeeRepository.findById(updateEmployeeDto.getId()).orElseThrow();
+        EmployeeEntity employee = employeeRepository.findById(updateEmployeeDto.getId()).orElseThrow(() -> new ResourceNotFoundException("User does not exist !"));
 
         employee.setAge(updateEmployeeDto.getAge());
         employee.setName(updateEmployeeDto.getName());
@@ -49,7 +50,7 @@ public class EmployeeService {
 
     public boolean deleteEmployee (Long employeeId) {
         EmployeeEntity employee = employeeRepository.findById(employeeId).orElseThrow(() ->
-                new NoSuchElementException("Employee with id " + employeeId + " not found !"));
+                new ResourceNotFoundException("Employee with id " + employeeId + " not found !"));
         employeeRepository.delete(employee);
 
         return true;
@@ -59,7 +60,7 @@ public class EmployeeService {
     public EmployeeDto getEmployeeById(Long employeeId) {
         EmployeeEntity employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() ->
-                        new NoSuchElementException("Employee not found" + employeeId + " not found !"));
+                        new ResourceNotFoundException("Employee not found" + employeeId + " not found !"));
 
         return modelMapper.map(employee, EmployeeDto.class);
     }

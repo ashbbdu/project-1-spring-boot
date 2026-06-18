@@ -1,5 +1,6 @@
 package com.project1.controllers;
 
+import com.project1.advices.ApiResponse;
 import com.project1.dto.EmployeeDto;
 import com.project1.dto.UpdateEmployeeDto;
 import com.project1.entities.EmployeeEntity;
@@ -33,6 +34,12 @@ public class EmployeeController {
        EmployeeDto employee = employeeService.addEmployee(employeeDto);
         return ResponseEntity.ok(employee);
     }
+
+//    @PostMapping(path = "/add")
+//    public ResponseEntity<ApiResponse<EmployeeDto>> addEmployee (@RequestBody @Valid EmployeeDto employeeDto) {
+//        EmployeeDto employee = employeeService.addEmployee(employeeDto);
+//        return  ResponseEntity.ok(new ApiResponse<>(employee));
+//    }
 
     @PutMapping(path = "/update")
     public EmployeeDto updateEmployee (@RequestBody UpdateEmployeeDto updateEmployeeDto) {
