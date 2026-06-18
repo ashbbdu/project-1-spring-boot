@@ -49,7 +49,7 @@ public class EmployeeService {
 
     public boolean deleteEmployee (Long employeeId) {
         EmployeeEntity employee = employeeRepository.findById(employeeId).orElseThrow(() ->
-                new NoSuchElementException("Employee not found"));
+                new NoSuchElementException("Employee with id " + employeeId + " not found !"));
         employeeRepository.delete(employee);
 
         return true;
@@ -59,7 +59,7 @@ public class EmployeeService {
     public EmployeeDto getEmployeeById(Long employeeId) {
         EmployeeEntity employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() ->
-                        new NoSuchElementException("Employee not found"));
+                        new NoSuchElementException("Employee not found" + employeeId + " not found !"));
 
         return modelMapper.map(employee, EmployeeDto.class);
     }
