@@ -6,6 +6,7 @@ import com.project1.dto.UpdateEmployeeDto;
 import com.project1.entities.EmployeeEntity;
 import com.project1.repositories.EmployeeRepository;
 import com.project1.services.EmployeeService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,10 @@ public class EmployeeController {
     private Long employeeId;
 
     @GetMapping(path = "/list")
-    public List<EmployeeEntity> getAllEmployee () {
+    public List<EmployeeEntity> getAllEmployee (HttpServletRequest request) {
+
+        String ipAddres = request.getRemoteAddr();
+        System.out.println(ipAddres + " ip address");
         return employeeService.getAllEmployee();
     }
 
@@ -40,6 +44,8 @@ public class EmployeeController {
 //        EmployeeDto employee = employeeService.addEmployee(employeeDto);
 //        return  ResponseEntity.ok(new ApiResponse<>(employee));
 //    }
+
+
 
     @PutMapping(path = "/update")
     public EmployeeDto updateEmployee (@RequestBody UpdateEmployeeDto updateEmployeeDto) {
@@ -59,6 +65,7 @@ public class EmployeeController {
     @GetMapping("/{employeeId}")
     public ResponseEntity<EmployeeDto> getEmployeeById(
             @PathVariable Long employeeId) {
+
 
         return ResponseEntity.ok(
                 employeeService.getEmployeeById(employeeId));
